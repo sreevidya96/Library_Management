@@ -133,38 +133,56 @@ SELECT Emp_name, Salary
 FROM Employee
 ORDER BY Salary DESC;
 
-SELECT B.Book_title, C.Customer_name
-FROM Books B
-JOIN IssueStatus I ON B.ISBN = I.ISBN_book
-JOIN Customer C ON I.Issued_cust = C.Customer_Id;
+SELECT b.Book_title, c.Customer_name
+FROM IssueStatus i
+JOIN Books b ON i.ISBN_book = b.ISBN
+JOIN Customer c ON i.Issued_cust = c.Customer_Id;
 
 SELECT Category, COUNT(*) AS Book_Count
 FROM Books
 GROUP BY Category;
 
-SELECT E.Branch_no, COUNT(*) AS Employee_Count
-FROM Employee E
-GROUP BY E.Branch_no;
+SELECT Emp_name, Position
+FROM Employee
+WHERE Salary > 50000;
 
-SELECT DISTINCT C.Customer_name
-FROM Customer C
-JOIN IssueStatus I ON C.Customer_Id = I.Issued_cust
-WHERE I.Issue_date BETWEEN '2023-06-01' AND '2023-06-30';
+SELECT Customer_name
+FROM Customer
+WHERE Reg_date < '2022-01-01'
+AND Customer_Id NOT IN (SELECT DISTINCT Issued_cust FROM IssueStatus);
+
+SELECT e.Branch_no, COUNT(*) AS Employee_Count
+FROM Employee e
+GROUP BY e.Branch_no;
+
+SELECT DISTINCT c.Customer_name
+FROM IssueStatus i
+JOIN Customer c ON i.Issued_cust = c.Customer_Id
+WHERE i.Issue_date BETWEEN '2023-06-01' AND '2023-06-30';
 
 SELECT Book_title
 FROM Books
 WHERE Book_title LIKE '%history%';
 
-SELECT E.Branch_no, COUNT(*) AS Employee_Count
-FROM Employee E
-GROUP BY E.Branch_no
+SELECT Branch_no, COUNT(*) AS Employee_Count
+FROM Employee
+GROUP BY Branch_no
 HAVING COUNT(*) > 5;
 
-SELECT DISTINCT C.Customer_name
-FROM Customer C
-JOIN IssueStatus I ON C.Customer_Id = I.Issued_cust
-JOIN Books B ON I.ISBN_book = B.ISBN
-WHERE B.Rental_Price > 25;
+SELECT e.Emp_name, b.Branch_address
+FROM Employee e
+JOIN Branch b ON e.Branch_no = b.Branch_no
+WHERE e.Position = 'Manager';
+
+SELECT DISTINCT c.Customer_name
+FROM IssueStatus i
+JOIN Customer c ON i.Issued_cust = c.Customer_Id
+JOIN Books b ON i.ISBN_book = b.ISBN
+WHERE b.Rental_Price > 25;
+
+
+
+
 
 
 
